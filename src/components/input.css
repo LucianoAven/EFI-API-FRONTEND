@@ -1,0 +1,16 @@
+.error {
+    color: red;
+    text-decoration: underline;
+
+}
+
+input {
+    justify-content: center;
+
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
