@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Input from "../components/Input.jsx";
-import { VscErrorSmall } from "react-icons/vsc";
+//import { VscErrorSmall } from "react-icons/vsc";
 
 export default function Login() {
   const [user, setUser] = useState({

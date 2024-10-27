@@ -1,23 +1,30 @@
+import { NavLink } from 'react-router-dom';
 export default function Home() {
     return (
         <>
             <h1>Nuestro servicios de reparación</h1>
             <div className="repairs">
-                <div className="smartphone">
-                    <h2>Smartphone</h2>
-                    <p>Reparación de smarthphones</p>
-        
-                </div>
-                <div className="laptop">
-                    <h2>Laptop</h2>
-                    <p>Reparación de laptops</p>
-                    
-                </div>
-                <div className="tablet">
-                    <h2>Tablet</h2>
-                    <p>Reparación de tablets</p>
+                <NavLink to="/devices">
+                    <div className="devices">
+                        <h2>Dispositivos</h2>
+                        {/* <p>Reparación de smarthphones</p> */}
+            
+                    </div>
+                </NavLink>
+                <NavLink to="repair-orders">
+                    <div className="orders">
+                        <h2>Ordenes de reparación</h2>
+                        {/* <p>Reparación de laptops</p> */}
+                        
+                    </div>
+                </NavLink>
+                <NavLink to="/repairs">
+                    <div className="repairs">
+                        <h2>Reparaciones</h2>
+                        {/* <p>Reparación de tablets</p> */}
 
-                </div>                                
+                    </div>   
+                </NavLink>                             
             </div>
         </>
     );

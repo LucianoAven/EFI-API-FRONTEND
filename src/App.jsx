@@ -9,7 +9,11 @@ import {
   Home,
   Login,
   Register,
+  
 } from "./views";
+import DevicesList from "./views/Devices/DevicesList";
+import RepairsList from "./views/Repairs/RepairsList";
+import OrdersList from "./views/Orders/OrdersList";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -24,6 +28,9 @@ function App() {
         <Route path="/dashboard" element={<DashBoard />}></Route>
         <Route path="/pasword-recovery" element={<ForgotPassword />}></Route>
         <Route path="/add-device" element={<AddDevice />}></Route>
+        <Route path="/devices" element={<DevicesList />}></Route>
+        <Route path="/repairs" element={<RepairsList />}></Route>
+        <Route path="/repair-orders" element={<OrdersList />}></Route>
       </Routes>
     </BrowserRouter>
   );
