@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography, Button,Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:8080/api/devices';
 
@@ -9,6 +11,8 @@ const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDevices = async () => {
@@ -35,22 +39,37 @@ const DeviceList = () => {
 
   const handleAction = (action) => {
     if (action === 'delete') {
-      console.log('Borrar dispositivo:', selectedDevice);
+      deleteDevice(selectedDevice.id)
     } else if (action === 'edit') {
       console.log('Editar dispositivo:', selectedDevice);
     } else if (action === 'details') {
       console.log('Ver detalle del dispositivo:', selectedDevice);
     } else if (action === 'createOrder') {
-      console.log('Crear orden para el dispositivo:', selectedDevice);
+      navigate("/repair-orders/create", {state: selectedDevice})
     }
     handleMenuClose();
+  };
+  const deleteDevice = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/devices/${id}`);
+      setDevices(devices.filter((device) => device.id !== id)); 
+      alert('Dispositivo eliminado correctamente');
+    } catch (error) {
+      console.error("Error eliminando el dispositivo:", error);
+      alert('Error eliminando el dispositivo');
+    }
   };
 
   return (
     <TableContainer component={Paper}>
-      <Typography variant="h5" component="div" sx={{ m: 2 }}>
-        Lista de Dispositivos
-      </Typography>
+      <Box display={'flex'}>
+        <Typography variant="h5" component="div" sx={{ m: 2 }}>
+          Lista de Dispositivos
+        </Typography>
+        <NavLink to='/devices/add-device'>
+          <Button> Registrar nuevo Dispositivo</Button>
+        </NavLink>
+      </Box>
       <Table aria-label="device table">
         <TableHead>
           <TableRow>
