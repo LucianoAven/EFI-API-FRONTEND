@@ -11,7 +11,7 @@ const DeviceDetail = () => {
   useEffect(() => {
     const fetchDevice = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/devices/${id}`); 
+        const response = await axios.get(`http://localhost:8080/api/devices/${id}`); 
         setDevice(response.data);
       } catch (error) {
         setError('Error al obtener los datos del dispositivo.');

@@ -1,14 +1,22 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export default function NavBar() {
   return (
-    <>
-      <img />
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/login">Ingresar</Link>
-        <Link to="/register">Registrarse</Link>
-      </div>
-    </>
+    <AppBar position="static" sx={{ backgroundColor: "primary.main", color: "primary.contrastText" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          <Button color="inherit">
+            <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/login" style={{ color: "inherit", textDecoration: "none" }}>Ingresar</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/register" style={{ color: "inherit", textDecoration: "none" }}>Registrarse</Link>
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

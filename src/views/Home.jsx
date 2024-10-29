@@ -1,31 +1,29 @@
 import { NavLink } from 'react-router-dom';
+import HomeButton from '../components/Homebutton';
+import DevicesIcon from '@mui/icons-material/Devices';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import BuildIcon from '@mui/icons-material/Build';
+import { Box, Typography} from '@mui/material';
 export default function Home() {
     return (
         <>
-            <h1>Nuestro servicios de reparación</h1>
-            <div className="repairs">
+            <Typography variant="h5" component="div" sx={{ m: 2 }}>
+            Nuestro servicios de reparación
+        </Typography>
+            <Box display={"flex"}>
                 <NavLink to="/devices">
-                    <div className="devices">
-                        <h2>Dispositivos</h2>
-                        {/* <p>Reparación de smarthphones</p> */}
-            
-                    </div>
+                    <HomeButton titulo={"Dispositivos"} icon={<DevicesIcon sx={{ fontSize: "2.5rem" }}/>}/> 
                 </NavLink>
                 <NavLink to="repair-orders">
-                    <div className="orders">
-                        <h2>Ordenes de reparación</h2>
-                        {/* <p>Reparación de laptops</p> */}
-                        
-                    </div>
+                    <HomeButton titulo={"Ordenes de reparación"} icon={<EventNoteIcon sx={{ fontSize: "2.5rem" }}/>}/> 
                 </NavLink>
                 <NavLink to="/repairs">
-                    <div className="repairs">
-                        <h2>Reparaciones</h2>
-                        {/* <p>Reparación de tablets</p> */}
-
-                    </div>   
-                </NavLink>                             
-            </div>
+                <HomeButton titulo={"Reparaciones"} icon={<BuildIcon sx={{ fontSize: "2.5rem" }}/>}/>  
+                </NavLink>    
+                                       
+            </Box>
         </>
     );
 };
+
+//sx={{ fontSize: "2.5rem" }}
