@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography, Button,Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080/api/devices';
+
+
+const API_URL = 'http://localhost:4000/api/devices';
 
 const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
+  const navigate = useNavigate(); 
 
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchDevices = async () => {
@@ -44,6 +48,7 @@ const DeviceList = () => {
       console.log('Editar dispositivo:', selectedDevice);
     } else if (action === 'details') {
       console.log('Ver detalle del dispositivo:', selectedDevice);
+      navigate(`/devices/${selectedDevice.id}`);
     } else if (action === 'createOrder') {
       navigate("/repair-orders/create", {state: selectedDevice})
     }
