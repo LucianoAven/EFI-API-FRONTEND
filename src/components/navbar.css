@@ -1,0 +1,15 @@
+.fondo {
+    background-color: rgb(81, 46, 117);
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    font-size: 26px;
+}
+
+.object {
+    margin-left: 12px;
+    color: black;
+    font-weight: bold;
+}
