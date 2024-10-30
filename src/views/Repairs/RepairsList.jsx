@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:8080/api/repairs';
 
@@ -9,6 +10,7 @@ const RepairsList = () =>{
     const [repairs, setRepairs] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedRepair, setSelectedRepair] = useState(null);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchRepairs = async () => {
           try {
@@ -40,7 +42,7 @@ const RepairsList = () =>{
         } else if (action === 'edit') {
           console.log('Editar reparación:', selectedRepair);
         } else if (action === 'details') {
-          console.log('Ver detalle de la reparación:', selectedRepair);
+          navigate(`/repairs/${selectedRepair.id}`);
         } 
         handleMenuClose();
       };

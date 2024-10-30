@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:8080/api/orders';
 
@@ -9,7 +10,7 @@ const OrdersList = () =>{
     const [orders, setOrders] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchOrders = async () => {
           try {
@@ -42,7 +43,7 @@ const OrdersList = () =>{
         } else if (action === 'edit') {
           console.log('Editar orden:', selectedOrder);
         } else if (action === 'details') {
-          console.log('Ver detalle de la orden:', selectedOrder);
+          navigate(`/repair-orders/${selectedOrder.id}`);
         } else if (action === 'createRepair') {
           console.log('Crear reparación para la orden:', selectedOrder);
         }
