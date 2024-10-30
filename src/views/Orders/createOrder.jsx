@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const API_URL = 'http://localhost:8080/api/users';
 
 const CreateOrderForm = () => {
-    const location = useLocation();
-    console.log(location)
+  const location = useLocation();
   const [users, setUsers] = useState([]);
-  const [tecnicoId,SetTecnicoId] =useState("");
   const [formData, setFormData] = useState({
-    fecha:'',
-    problema_reportado:'',
+    fecha: new Date(),
+    problema_reportado: '',
     id_dispositivo: location.state.id,
     id_usuario: '',
-    costo_estimado:'',
+    costo_estimado: '',
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -26,10 +23,6 @@ const CreateOrderForm = () => {
       try {
         const response = await axios.get(API_URL);
         setUsers(response.data);
-        setTimeout(() => {
-            console.log(users);
-          }, 2000);
-          
       } catch (error) {
         console.error('Error al obtener los usuarios:', error);
       }
@@ -39,23 +32,31 @@ const CreateOrderForm = () => {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
+    });
+  };
+
+  const handleSelectChange = (e) => {
+    setFormData({
+      ...formData,
+      id_usuario: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/orders', formData);
-      setSuccessMessage(`Ordern creada con éxito`);
+      await axios.post('http://localhost:8080/api/orders', formData);
+      setSuccessMessage('Orden creada con éxito');
       setFormData({
-        fecha:'',
-        problema_reportado:'',
-        id_dispositivo: '',
+        fecha: '',
+        problema_reportado: '',
+        id_dispositivo: location.state.id,
         id_usuario: '',
-        costo_estimado:'',
+        costo_estimado: '',
       });
       setError(null);
     } catch (err) {
@@ -63,8 +64,6 @@ const CreateOrderForm = () => {
       setSuccessMessage(null);
     }
   };
-  
-
 
   return (
     <Box
@@ -79,62 +78,48 @@ const CreateOrderForm = () => {
       }}
     >
       <Typography variant="h5" align="center" gutterBottom>
-        Crear Orden para {location.state.marca} {location.state.modelo} 
+        Crear Orden para {location.state.marca} {location.state.modelo}
       </Typography>
-      
+
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          label="Marca"
-          name="marca"
-          value={formData.marca}
+          label="Problema Reportado"
+          name="problema_reportado"
+          value={formData.problema_reportado}
           onChange={handleChange}
           margin="normal"
           required
         />
         <TextField
           fullWidth
-          label="Modelo"
-          name="modelo"
-          value={formData.modelo}
+          label="Costo Estimado"
+          name="costo_estimado"
+          value={formData.costo_estimado}
           onChange={handleChange}
           margin="normal"
           required
         />
-        <TextField
-          fullWidth
-          label="Tipo"
-          name="tipo"
-          value={formData.tipo}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          fullWidth
-          label="Número de Serie"
-          name="numero_serie"
-          value={formData.numero_serie}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <InputLabel id="demo-simple-select-label">Técnico</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={tecnicoId}
-          label="tecnico"
-          onChange={handleChange}
-        >
-            {users.map((user) => {
-                if (user.role == "tecnico")(
-                    <MenuItem value={user.id}>{user.name}</MenuItem>
-                )
-            }
-               
-            )}
-        </Select>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="tecnico-select-label">Técnico</InputLabel>
+          <Select
+            labelId="tecnico-select-label"
+            id="tecnico-select"
+            value={formData.id_usuario}
+            label="Técnico"
+            onChange={handleSelectChange}
+          >
+            {users
+              .filter((user) => user.role === "tecnico")
+              .map((user) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+
         {error && <Typography color="error">{error}</Typography>}
         {successMessage && <Typography color="success.main">{successMessage}</Typography>}
 
