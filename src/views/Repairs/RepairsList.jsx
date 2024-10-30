@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080/api/repairs';
+const API_URL = 'http://localhost:4000/api/repairs';
 
 const RepairsList = () =>{
     const [repairs, setRepairs] = useState([]);

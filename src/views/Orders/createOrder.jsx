@@ -3,7 +3,7 @@ import { TextField, Button, Box, Typography, Select, MenuItem, FormControl, Inpu
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080/api/users';
+const API_URL = 'http://localhost:4000/api/users';
 
 const CreateOrderForm = () => {
   const location = useLocation();
@@ -49,7 +49,7 @@ const CreateOrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/api/orders', formData);
+      await axios.post('http://localhost:4000/api/orders', formData);
       setSuccessMessage('Orden creada con éxito');
       setFormData({
         fecha: '',

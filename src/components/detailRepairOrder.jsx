@@ -11,7 +11,7 @@ const RepairOrderDetail = () => {
   useEffect(() => {
     const fetchRepairOrder = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/orders/${id}`); 
+        const response = await axios.get(`http://localhost:4000/api/orders/${id}`); 
         setRepairOrder(response.data);
       } catch (error) {
         setError('Error al obtener los datos de la orden de reparacion');

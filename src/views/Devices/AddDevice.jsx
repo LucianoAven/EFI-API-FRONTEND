@@ -25,7 +25,7 @@ const CreateDeviceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/devices', formData);
+      const response = await axios.post('http://localhost:4000/api/devices', formData);
       setSuccessMessage(`Dispositivo creado con éxito: ${response.data.marca} ${response.data.modelo}`);
       setFormData({
         marca: '',

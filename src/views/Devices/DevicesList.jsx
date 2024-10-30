@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const API_URL = 'http://localhost:8080/api/devices';
+const API_URL = 'http://localhost:4000/api/devices';
 
 const DeviceList = () => {
   const [devices, setDevices] = useState([]);
@@ -56,7 +56,7 @@ const DeviceList = () => {
   };
   const deleteDevice = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/devices/${id}`);
+      await axios.delete(`http://localhost:4000/api/devices/${id}`);
       setDevices(devices.filter((device) => device.id !== id)); 
       alert('Dispositivo eliminado correctamente');
     } catch (error) {
