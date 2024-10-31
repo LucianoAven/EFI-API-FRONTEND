@@ -11,6 +11,8 @@ const OrdersList = () =>{
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const navigate = useNavigate()
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     useEffect(() => {
         const fetchOrders = async () => {
           try {
@@ -31,7 +33,29 @@ const OrdersList = () =>{
         setAnchorEl(event.currentTarget);
         setSelectedOrder(order);
       };
-    
+      const CreateRepair = async () => {
+        
+        const repairData = {
+          id_orden: selectedOrder.id,
+            fecha_inicio: new Date(),
+            fecha_fin: null,
+            costo_real: null,
+        }
+        try {
+          await axios.post('http://localhost:4000/api/repairs', repairData);
+          setSuccessMessage('Reparación creada con éxito');
+          setFormData({
+            id_orden: '',
+            fecha_inicio:'',
+            fecha_fin: '',
+            costo_real: '',
+          });
+          setError(null);
+        } catch (err) {
+          setError('Error creando la reparación');
+          setSuccessMessage(null);
+        }
+      };
       const handleMenuClose = () => {
         setAnchorEl(null);
         setSelectedOrder(null);
@@ -39,16 +63,27 @@ const OrdersList = () =>{
     
       const handleAction = (action) => {
         if (action === 'delete') {
-          console.log('Borrar orden:', selectedOrder);
+          deleteOrder(selectedOrder.id)
         } else if (action === 'edit') {
           console.log('Editar orden:', selectedOrder);
         } else if (action === 'details') {
           navigate(`/repair-orders/${selectedOrder.id}`);
         } else if (action === 'createRepair') {
-          console.log('Crear reparación para la orden:', selectedOrder);
+          CreateRepair()
         }
         handleMenuClose();
       };
+      const deleteOrder = async (id) => {
+        try {
+          await axios.delete(`http://localhost:4000/api/orders/${id}`);
+          setOrders(orders.filter((order) => order.id !== id)); 
+          alert('Orden eliminada correctamente');
+        } catch (error) {
+          console.error("Error eliminando la orden:", error);
+          alert('Error eliminando la orden');
+        }
+      };
+    
     return(
         <TableContainer component={Paper}>
         <Typography variant="h5" component="div" sx={{ m: 2 }}>
@@ -81,7 +116,7 @@ const OrdersList = () =>{
                     <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
                     <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
                     <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
-                    <MenuItem onClick={() => handleAction('createOrder')}>Crear reparación</MenuItem>
+                    <MenuItem onClick={() => handleAction('createRepair')}>Crear reparación</MenuItem>
                   </Menu>
                 </TableCell>
               </TableRow>

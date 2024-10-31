@@ -38,13 +38,23 @@ const RepairsList = () =>{
     
       const handleAction = (action) => {
         if (action === 'delete') {
-          console.log('Borrar reparación:', selectedRepair);
+          deleteRepair(selectedRepair.id)
         } else if (action === 'edit') {
           console.log('Editar reparación:', selectedRepair);
         } else if (action === 'details') {
           navigate(`/repairs/${selectedRepair.id}`);
         } 
         handleMenuClose();
+      };
+      const deleteRepair = async (id) => {
+        try {
+          await axios.delete(`http://localhost:4000/api/repairs/${id}`);
+          setRepairs(repairs.filter((repair) => repair.id !== id)); 
+          alert('Reparación eliminada correctamente');
+        } catch (error) {
+          console.error("Error eliminando la reparación:", error);
+          alert('Error eliminando la reparación');
+        }
       };
     return(
         <TableContainer component={Paper}>

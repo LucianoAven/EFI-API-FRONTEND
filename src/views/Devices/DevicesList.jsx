@@ -47,10 +47,9 @@ const DeviceList = () => {
     } else if (action === 'edit') {
       console.log('Editar dispositivo:', selectedDevice);
     } else if (action === 'details') {
-      console.log('Ver detalle del dispositivo:', selectedDevice);
       navigate(`/devices/${selectedDevice.id}`);
     } else if (action === 'createOrder') {
-      navigate("/repair-orders/create", {state: selectedDevice})
+      navigate("/repair-orders/create", {state: selectedDevice});
     }
     handleMenuClose();
   };

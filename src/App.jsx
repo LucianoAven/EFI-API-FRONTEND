@@ -14,7 +14,7 @@ import {
 import DevicesList from "./views/Devices/DevicesList";
 import RepairsList from "./views/Repairs/RepairsList";
 import OrdersList from "./views/Orders/OrdersList";
-import CreateOrderForm from "./views/Orders/createOrder";
+import CreateOrderForm from "./views/Orders/CreateOrder";
 
 import DeviceDetail from "./components/detailDevice";
 import RepairDetail from "./components/detailRepair";
@@ -37,13 +37,10 @@ function App() {
         <Route path="/devices" element={<DevicesList />}></Route>
         <Route path="/repairs" element={<RepairsList />}></Route>
         <Route path="/repair-orders" element={<OrdersList />}></Route>
-
         <Route path="/repair-orders/create" element={<CreateOrderForm />}></Route>
-
         <Route path="/devices/:id" element={<DeviceDetail />} />
         <Route path="/repairs/:id" element={<RepairDetail />} />
         <Route path="/repair-orders/:id" element={<RepairOrderDetail />} />
-
       </Routes>
     </BrowserRouter>
   );
