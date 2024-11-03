@@ -1,13 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import Input from "../components/Input.jsx";
-//import { VscErrorSmall } from "react-icons/vsc";
-
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext.jsx";
 export default function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleChange = (e) => {
     setUser({
@@ -26,26 +29,34 @@ export default function Login() {
       .catch((error) => console.error(error));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+};
+
+
   return (
     <div>
-      <Input
-        id="email"
-        label="Email"
-        name="email"
-        placeholder="Ingrese su correo electrónico"
-        type="text"
-        onChange={handleChange}
-      />
-      <Input
-        id="password"
-        label="Contraseña"
-        name="password"
-        placeholder="Ingese su contraseña"
-        type="password"
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit}>
+        <Input
+          id="email"
+          label="Email"
+          name="email"
+          placeholder="Ingrese su correo electrónico"
+          type="text"
+          onChange= {(e) => setEmail(e.target.value)}
+        />
+        <Input
+          id="password"
+          label="Contraseña"
+          name="password"
+          placeholder="Ingese su contraseña"
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button onClick={() => handleLogin()}>Ingresar</button>
+        <button type="submit">Ingresar</button>
+      </form>
     </div>
   );
 }

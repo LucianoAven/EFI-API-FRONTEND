@@ -15,10 +15,11 @@ import DevicesList from "./views/Devices/DevicesList";
 import RepairsList from "./views/Repairs/RepairsList";
 import OrdersList from "./views/Orders/OrdersList";
 import CreateOrderForm from "./views/Orders/CreateOrder";
-
 import DeviceDetail from "./components/detailDevice";
 import RepairDetail from "./components/detailRepair";
 import RepairOrderDetail from "./components/detailRepairOrder";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 function App() {
@@ -26,22 +27,93 @@ function App() {
 
   return (
     <BrowserRouter>
+      <AuthProvider>
       <NavBar />
-      <Routes>
-        <Route exact path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/dashboard" element={<DashBoard />}></Route>
-        <Route path="/pasword-recovery" element={<ForgotPassword />}></Route>
-        <Route path="/devices/add-device" element={<AddDevice />}></Route>
-        <Route path="/devices" element={<DevicesList />}></Route>
-        <Route path="/repairs" element={<RepairsList />}></Route>
-        <Route path="/repair-orders" element={<OrdersList />}></Route>
-        <Route path="/repair-orders/create" element={<CreateOrderForm />}></Route>
-        <Route path="/devices/:id" element={<DeviceDetail />} />
-        <Route path="/repairs/:id" element={<RepairDetail />} />
-        <Route path="/repair-orders/:id" element={<RepairOrderDetail />} />
-      </Routes>
+        <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route
+              path="/"
+              element={
+                  <ProtectedRoute>
+                      <Home />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/dashboard"
+              element={
+                  <ProtectedRoute>
+                      <DashBoard />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/devices/add-device"
+              element={
+                  <ProtectedRoute>
+                      <AddDevice />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/devices"
+              element={
+                  <ProtectedRoute>
+                      <DevicesList />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repairs"
+              element={
+                  <ProtectedRoute>
+                      <RepairsList />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repair-orders"
+              element={
+                  <ProtectedRoute>
+                      <OrdersList />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repair-orders/create"
+              element={
+                  <ProtectedRoute>
+                      <CreateOrderForm />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/devices/:id"
+              element={
+                  <ProtectedRoute>
+                      <DeviceDetail />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repairs/:id"
+              element={
+                  <ProtectedRoute>
+                      <RepairDetail />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repair-orders/:id"
+              element={
+                  <ProtectedRoute>
+                      <RepairOrderDetail />
+                  </ProtectedRoute>
+              }
+          />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
