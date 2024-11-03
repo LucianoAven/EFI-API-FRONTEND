@@ -33,7 +33,7 @@ const Action = (props) =>{
     if (action === 'delete') {
       deleteDevice(selectedDevice.id)
     } else if (action === 'edit') {
-      console.log('Editar dispositivo:', selectedDevice);
+      navigate(`/devices/update/${selectedDevice.id}`);
     } else if (action === 'details') {
       navigate(`/devices/${selectedDevice.id}`);
     } else if (action === 'createOrder') {

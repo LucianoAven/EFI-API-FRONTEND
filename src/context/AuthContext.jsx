@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [userRole, setUserRole] = useState("");
+    const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
 
     
     const login = async (email, password) => {
@@ -18,10 +18,12 @@ export const AuthProvider = ({ children }) => {
                 password,
             });
             const token = response.data.token;
+            const role  = response.data.role;
             localStorage.setItem("token", token);
+            localStorage.setItem("userRole", role);
             const decodedUser = parseJwt(token); 
             setUser(decodedUser);
-            setUserRole(response.data.role)
+            setUserRole(role)
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             alert("Credenciales incorrectas");
@@ -31,9 +33,16 @@ export const AuthProvider = ({ children }) => {
     
     const logout = () => {
         localStorage.removeItem("token");
-        setUserRole("")
+        localStorage.removeItem("userRole");
+        setUserRole(null);
         setUser(null);
     };
+
+    useEffect(() => {
+        const storedRole = localStorage.getItem("userRole");
+        if (storedRole) setUserRole(storedRole);
+    }, []);
+
 
     
     const parseJwt = (token) => {

@@ -18,6 +18,9 @@ import CreateOrderForm from "./views/Orders/CreateOrder";
 import DeviceDetail from "./components/detailDevice";
 import RepairDetail from "./components/detailRepair";
 import RepairOrderDetail from "./components/detailRepairOrder";
+import UpdateDeviceForm from "./views/Devices/UpdateDeviceForm";
+import UpdateRepairOrderForm from "./views/Orders/UpdateRepairOrderForm";
+import FinalizeRepairForm from "./views/Repairs/FinalizeRepairForm";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -109,6 +112,30 @@ function App() {
               element={
                   <ProtectedRoute>
                       <RepairOrderDetail />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/devices/update/:id"
+              element={
+                  <ProtectedRoute>
+                      <UpdateDeviceForm />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repair-orders/update/:id"
+              element={
+                  <ProtectedRoute>
+                      <UpdateRepairOrderForm />
+                  </ProtectedRoute>
+              }
+          />
+          <Route
+              path="/repairs/update/:id"
+              element={
+                  <ProtectedRoute>
+                      <FinalizeRepairForm />
                   </ProtectedRoute>
               }
           />

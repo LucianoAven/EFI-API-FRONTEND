@@ -26,23 +26,14 @@ const Action = (props) =>{
   const handleAction = (action) => {
     if (action === 'delete') {
       deleteRepair(selectedRepair.id)
-    } else if (action === 'edit') {
-      console.log('Editar reparación:', selectedRepair);
+    } else if (action === 'finalize') {
+      navigate(`/repairs/update/${selectedRepair.id}`);
     } else if (action === 'details') {
       navigate(`/repairs/${selectedRepair.id}`);
     } 
     handleMenuClose();
   };
-  // const deleteRepair = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:4000/api/repairs/${id}`);
-  //     setRepairs(repairs.filter((repair) => repair.id !== id)); 
-  //     alert('Reparación eliminada correctamente');
-  //   } catch (error) {
-  //     console.error("Error eliminando la reparación:", error);
-  //     alert('Error eliminando la reparación');
-  //   }
-  // };
+  
 
   const deleteRepair = props.deleteRepair
   const handleClick = () =>{
@@ -59,7 +50,7 @@ const Action = (props) =>{
         onClose={handleMenuClose}
       >
           <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
-          <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
+          <MenuItem onClick={() => handleAction('finalize')}>Finalizar</MenuItem>
           <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
         </Menu></>
     )
@@ -144,22 +135,10 @@ const RepairsList = () =>{
                 <TableCell>{repair.ordenReparacion.dispositivo.modelo}</TableCell>
                 <TableCell>{repair.ordenReparacion.tecnico.name}</TableCell>
                 <TableCell>{repair.fecha_inicio}</TableCell>
-                <TableCell>{repair.fecha_final}</TableCell>
-                <TableCell>{repair.costo}</TableCell>
+                <TableCell>{repair.fecha_fin}</TableCell>
+                <TableCell>{repair.costo_real}</TableCell>
                 <TableCell align="right">
                   <Action repair={repair} deleteRepair={deleteRepair}/>
-                  {/* <IconButton onClick={(e) => handleMenuClick(e, repair)}>
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
-                  >
-                    <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
-                    <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
-                    <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
-                  </Menu> */}
                 </TableCell>
               </TableRow>
             ))}

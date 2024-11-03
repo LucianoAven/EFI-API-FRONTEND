@@ -20,24 +20,24 @@ const Action = (props) =>{
     setSelectedOrder(order);
   };
   const CreateRepair = async () => {
-    
     const repairData = {
       id_orden: selectedOrder.id,
-        fecha_inicio: new Date(),
-        fecha_fin: null,
-        costo_real: null,
-    }
+      fecha_inicio: new Date(),
+      fecha_fin: null,
+      costo_real: null,
+    };
     try {
+      // Crear la reparación
       await axios.post('http://localhost:4000/api/repairs', repairData);
       setSuccessMessage('Reparación creada con éxito');
-      setFormData({
-        id_orden: '',
-        fecha_inicio:'',
-        fecha_fin: '',
-        costo_real: '',
-      });
+      
+      // Actualizar el estado del dispositivo a "En Reparación"
+      const dispositivoId = selectedOrder.id_dispositivo;
+      await axios.put(`http://localhost:4000/api/devices/${dispositivoId}`, { estado: "En Reparación" });
+
       setError(null);
     } catch (err) {
+      console.error("Error creando la reparación:", err);
       setError('Error creando la reparación');
       setSuccessMessage(null);
     }
@@ -105,11 +105,7 @@ const API_URL = 'http://localhost:4000/api/orders';
 
 const OrdersList = () =>{
     const [orders, setOrders] = useState([]);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const navigate = useNavigate()
-    const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
+    
     useEffect(() => {
         const fetchOrders = async () => {
           try {
@@ -126,50 +122,7 @@ const OrdersList = () =>{
     
         fetchOrders();
       }, []);
-      const handleMenuClick = (event, order) => {
-        setAnchorEl(event.currentTarget);
-        setSelectedOrder(order);
-      };
-      const CreateRepair = async () => {
-        
-        const repairData = {
-          id_orden: selectedOrder.id,
-            fecha_inicio: new Date(),
-            fecha_fin: null,
-            costo_real: null,
-        }
-        try {
-          await axios.post('http://localhost:4000/api/repairs', repairData);
-          setSuccessMessage('Reparación creada con éxito');
-          setFormData({
-            id_orden: '',
-            fecha_inicio:'',
-            fecha_fin: '',
-            costo_real: '',
-          });
-          setError(null);
-        } catch (err) {
-          setError('Error creando la reparación');
-          setSuccessMessage(null);
-        }
-      };
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-        setSelectedOrder(null);
-      };
-    
-      const handleAction = (action) => {
-        if (action === 'delete') {
-          deleteOrder(selectedOrder.id)
-        } else if (action === 'edit') {
-          console.log('Editar orden:', selectedOrder);
-        } else if (action === 'details') {
-          navigate(`/repair-orders/${selectedOrder.id}`);
-        } else if (action === 'createRepair') {
-          CreateRepair()
-        }
-        handleMenuClose();
-      };
+      
       const deleteOrder = async (id) => {
         try {
           await axios.delete(`http://localhost:4000/api/orders/${id}`);
