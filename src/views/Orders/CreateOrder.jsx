@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:4000/api/users';
 
@@ -17,6 +18,7 @@ const CreateOrderForm = () => {
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -49,7 +51,7 @@ const CreateOrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/api/orders', formData);
+      const response = await axios.post('http://localhost:4000/api/orders', formData);
       setSuccessMessage('Orden creada con éxito');
       setFormData({
         fecha: '',
@@ -59,6 +61,7 @@ const CreateOrderForm = () => {
         costo_estimado: '',
       });
       setError(null);
+      navigate(`/repair-orders/${response.data.id}`)
     } catch (err) {
       setError('Error creando la orden');
       setSuccessMessage(null);

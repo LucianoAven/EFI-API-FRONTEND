@@ -27,15 +27,14 @@ const Action = (props) =>{
       costo_real: null,
     };
     try {
-      // Crear la reparación
-      await axios.post('http://localhost:4000/api/repairs', repairData);
+      const response = await axios.post('http://localhost:4000/api/repairs', repairData);
       setSuccessMessage('Reparación creada con éxito');
-      
-      // Actualizar el estado del dispositivo a "En Reparación"
+
       const dispositivoId = selectedOrder.id_dispositivo;
       await axios.put(`http://localhost:4000/api/devices/${dispositivoId}`, { estado: "En Reparación" });
 
       setError(null);
+      navigate(`/repairs/${response.data.id}`)
     } catch (err) {
       console.error("Error creando la reparación:", err);
       setError('Error creando la reparación');

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateDeviceForm = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const CreateDeviceForm = () => {
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -35,6 +37,7 @@ const CreateDeviceForm = () => {
         estado: '',
       });
       setError(null);
+      navigate(`/devices/${response.data.id}`)
     } catch (err) {
       setError('Error creando el dispositivo');
       setSuccessMessage(null);
