@@ -4,6 +4,7 @@ import { validateName, validateEmail, validatePassword } from "../validations";
 import Input from "../components/Input.jsx";
 import "./register.css";
 import dispositivo from "../assets/images.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export default function Register() {
 const [error, setError] = useState(null);
 const [success, setSuccess] = useState(null);
 
+const navigate = useNavigate()
 
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -70,11 +72,16 @@ const handleChange = (e) => {
         const response = await axios.post("http://localhost:4000/api/users", formData);
         setSuccess("Usuario creado exitosamente");
         setError(null);
+        navigate("/login")
     } catch (err) {
         setError("Error al crear el usuario");
         setSuccess(null);
     }
 };
+
+const handleNavigate = () =>{
+  navigate("/login")
+}
 
 
   return (
@@ -109,6 +116,8 @@ const handleChange = (e) => {
                 </label>
                 <br />
                 <button type="submit">Registrar</button>
+
+                <button onClick={handleNavigate}>Iniciar Sesión</button>
             </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>{success}</p>}

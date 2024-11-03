@@ -3,6 +3,8 @@ import axios from "axios";
 import Input from "../components/Input.jsx";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
   const [user, setUser] = useState({
     email: "",
@@ -11,6 +13,7 @@ export default function Login() {
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setUser({
@@ -33,6 +36,9 @@ export default function Login() {
     e.preventDefault();
     await login(email, password);
 };
+const handleNavigate = () =>{
+  navigate("/register")
+}
 
 
   return (
@@ -56,6 +62,8 @@ export default function Login() {
         />
 
         <button type="submit">Ingresar</button>
+
+        <button onClick={handleNavigate}>Registrarse</button>
       </form>
     </div>
   );
