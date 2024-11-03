@@ -19,10 +19,13 @@ export default function NavBar() {
             <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
           </Button>
           <Button color="inherit">
-            <Link to="/login" style={{ color: "inherit", textDecoration: "none" }}>Ingresar</Link>
+            <Link to="/devices" style={{ color: "inherit", textDecoration: "none" }}>Dispositivos</Link>
           </Button>
           <Button color="inherit">
-            <Link to="/register" style={{ color: "inherit", textDecoration: "none" }}>Registrarse</Link>
+            <Link to="/repair-orders" style={{ color: "inherit", textDecoration: "none" }}>Ordenes de Reparación</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/repairs" style={{ color: "inherit", textDecoration: "none" }}>Reparaciones</Link>
           </Button>
           <Button onClick={handleLogout} color="inherit">
             Cerrar Sesión
