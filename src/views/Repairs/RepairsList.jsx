@@ -1,8 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Menu, MenuItem, Typography, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
+import { useContext } from 'react';
+
+const Action = (props) =>{
+  const repair = props.repair
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRepair, setSelectedRepair] = useState(null);
+  const navigate = useNavigate();
+  const {userRole} = useContext(AuthContext);
+
+  const handleMenuClick = (event, repair) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRepair(repair);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedRepair(null);
+  };
+
+  const handleAction = (action) => {
+    if (action === 'delete') {
+      deleteRepair(selectedRepair.id)
+    } else if (action === 'edit') {
+      console.log('Editar reparación:', selectedRepair);
+    } else if (action === 'details') {
+      navigate(`/repairs/${selectedRepair.id}`);
+    } 
+    handleMenuClose();
+  };
+  // const deleteRepair = async (id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:4000/api/repairs/${id}`);
+  //     setRepairs(repairs.filter((repair) => repair.id !== id)); 
+  //     alert('Reparación eliminada correctamente');
+  //   } catch (error) {
+  //     console.error("Error eliminando la reparación:", error);
+  //     alert('Error eliminando la reparación');
+  //   }
+  // };
+
+  const deleteRepair = props.deleteRepair
+  const handleClick = () =>{
+    navigate(`/repairs/${repair.id}`)
+  }
+  if (userRole == "tecnico"){
+    return(
+      <><IconButton onClick={(e) => handleMenuClick(e, repair)}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+          <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
+          <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
+          <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
+        </Menu></>
+    )
+  }else{
+    return(
+      <Button onClick={handleClick}>
+          Ver Detalle 
+      </Button>
+    )
+  }
+}
 
 const API_URL = 'http://localhost:4000/api/repairs';
 
@@ -16,9 +84,7 @@ const RepairsList = () =>{
           try {
             const response = await axios.get(API_URL);
             setRepairs(response.data);
-            setTimeout(() => {
-                console.log(orders);
-              }, 1000);
+            
           } catch (error) {
             console.error('Error al obtener las reparaciones:', error);
           }
@@ -81,7 +147,8 @@ const RepairsList = () =>{
                 <TableCell>{repair.fecha_final}</TableCell>
                 <TableCell>{repair.costo}</TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={(e) => handleMenuClick(e, repair)}>
+                  <Action repair={repair} deleteRepair={deleteRepair}/>
+                  {/* <IconButton onClick={(e) => handleMenuClick(e, repair)}>
                     <MoreVertIcon />
                   </IconButton>
                   <Menu
@@ -92,7 +159,7 @@ const RepairsList = () =>{
                     <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
                     <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
                     <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
-                  </Menu>
+                  </Menu> */}
                 </TableCell>
               </TableRow>
             ))}
