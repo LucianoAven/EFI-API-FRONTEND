@@ -3,14 +3,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const UpdateRepairOrderForm = () => {
     const { id } = useParams();
     const [orderData, setOrderData] = useState(null);
     const [technicians, setTechnicians] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
-        // Obtener datos de la orden de reparación
         const fetchOrderData = async () => {
             try {
                 const response = await axios.get(`http://localhost:4000/api/orders/${id}`);
@@ -19,7 +20,6 @@ const UpdateRepairOrderForm = () => {
                 console.error("Error al obtener los datos de la orden:", error);
             }
         };
-        // Obtener lista de técnicos
         const fetchTechnicians = async () => {
             try {
                 const response = await axios.get("http://localhost:4000/api/users?role=tecnico");
@@ -42,6 +42,7 @@ const UpdateRepairOrderForm = () => {
         try {
             await axios.put(`http://localhost:4000/api/orders/${id}`, orderData);
             alert("Orden de reparación actualizada correctamente");
+            navigate(`/repair-orders/${id}`)
         } catch (error) {
             console.error("Error al actualizar la orden de reparación:", error);
         }

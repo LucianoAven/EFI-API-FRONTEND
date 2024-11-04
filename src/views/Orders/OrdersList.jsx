@@ -50,7 +50,7 @@ const Action = (props) =>{
     if (action === 'delete') {
       deleteOrder(selectedOrder.id)
     } else if (action === 'edit') {
-      console.log('Editar orden:', selectedOrder);
+      navigate(`/repair-orders/update/${selectedOrder.id}`);
     } else if (action === 'details') {
       navigate(`/repair-orders/${selectedOrder.id}`);
     } else if (action === 'createRepair') {

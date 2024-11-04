@@ -1,70 +1,67 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import Input from "../components/Input.jsx";
-import { useContext } from "react";
+import { TextField, Button, Box, Typography, Container, Stack } from "@mui/material";
 import AuthContext from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
-
-  const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleLogin = () => {
-    axios
-      .post("http://localhost:4000/api/users/login", {
-        email: user.email,
-        password: user.password,
-      })
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
-};
-const handleNavigate = () =>{
-  navigate("/register")
-}
+  };
 
+  const handleNavigate = () => {
+    navigate("/register");
+  };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <Input
-          id="email"
-          label="Email"
-          name="email"
-          placeholder="Ingrese su correo electrónico"
-          type="text"
-          onChange= {(e) => setEmail(e.target.value)}
-        />
-        <Input
-          id="password"
-          label="Contraseña"
-          name="password"
-          placeholder="Ingese su contraseña"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+    <Container maxWidth="xs">
+      <Box sx={{ mt: 8, p: 3, boxShadow: 3, borderRadius: 2 }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Iniciar Sesión
+        </Typography>
+        
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <TextField
+              label="Contraseña"
+              variant="outlined"
+              fullWidth
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Ingresar
+            </Button>
 
-        <button type="submit">Ingresar</button>
-
-        <button onClick={handleNavigate}>Registrarse</button>
-      </form>
-    </div>
+            <Button
+              onClick={handleNavigate}
+              variant="text"
+              color="secondary"
+              fullWidth
+            >
+              Registrarse
+            </Button>
+          </Stack>
+        </form>
+      </Box>
+    </Container>
   );
 }

@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const UpdateDeviceForm= () => {
     const { id } = useParams(); 
     const [deviceData, setDeviceData] = useState(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchDeviceData = async () => {
@@ -30,6 +32,7 @@ const UpdateDeviceForm= () => {
         try {
             await axios.put(`http://localhost:4000/api/devices/${id}`, deviceData);
             alert("Dispositivo actualizado correctamente");
+            navigate(`/devices/${id}`)
         } catch (error) {
             console.error("Error al actualizar el dispositivo:", error);
         }

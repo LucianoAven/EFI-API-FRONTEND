@@ -1,28 +1,31 @@
 import { NavLink } from 'react-router-dom';
 import HomeButton from '../components/Homebutton';
 import DevicesIcon from '@mui/icons-material/Devices';
+import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import BuildIcon from '@mui/icons-material/Build';
-import { Box, Typography} from '@mui/material';
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
+import { Box, Typography, Container} from '@mui/material';
 export default function Home() {
     return (
-        <>
-            <Typography variant="h5" component="div" sx={{ m: 2 }}>
+        <Container  >
+            {/* <Typography variant="h3"  sx={{ m: 5 }}>
             Nuestro servicios de reparación
-        </Typography>
-            <Box display={"flex"}>
-                <NavLink to="/devices">
-                    <HomeButton titulo={"Dispositivos"} icon={<DevicesIcon sx={{ fontSize: "2.5rem" }}/>}/> 
+            </Typography> */}
+            <Box sx={{ display: 'flex',  alignItems: 'center', mt: 20,ml:10, gap: '1rem 5rem'}}>
+                <NavLink to="/devices" >
+                    <HomeButton titulo={"Dispositivos"} icon={<DevicesOutlinedIcon sx={{ fontSize: "15rem" }}/>}/> 
                 </NavLink>
                 <NavLink to="repair-orders">
-                    <HomeButton titulo={"Ordenes de reparación"} icon={<EventNoteIcon sx={{ fontSize: "2.5rem" }}/>}/> 
+                    <HomeButton titulo={"Ordenes de reparación"} icon={<EventNoteOutlinedIcon sx={{ fontSize: "15rem" }}/>}/> 
                 </NavLink>
                 <NavLink to="/repairs">
-                <HomeButton titulo={"Reparaciones"} icon={<BuildIcon sx={{ fontSize: "2.5rem" }}/>}/>  
+                <HomeButton titulo={"Reparaciones"} icon={<HandymanOutlinedIcon sx={{ fontSize: "15rem" }}/>}/>  
                 </NavLink>    
                                        
             </Box>
-        </>
+        </Container>
     );
 };
 
