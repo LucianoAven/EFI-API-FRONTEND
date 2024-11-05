@@ -9,7 +9,7 @@ const RepairDetail = () => {
   const [repair, setRepair] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRepair = async () => {
