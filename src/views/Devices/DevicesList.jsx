@@ -70,13 +70,26 @@ const Action = (props) =>{
   
 }
 
+const CreateDeviceButton = () => {
+  const {userRole} = useContext(AuthContext)
+  if (userRole == "admin"){
+    return(
+      <NavLink to='/devices/add-device'>
+        <Button> Registrar nuevo Dispositivo</Button>
+      </NavLink>
+    )
+  
+  }
+
+}
+
 const API_URL = 'http://localhost:4000/api/devices';
 
 const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
-  const {userRole} = useContext(AuthContext)
+  
 
   const navigate = useNavigate(); 
 
@@ -109,10 +122,12 @@ const DeviceList = () => {
         <Typography variant="h5" component="div" sx={{ m: 2 }}>
           Lista de Dispositivos
         </Typography>
-        <NavLink to='/devices/add-device'>
+        {/* <NavLink to='/devices/add-device'>
           <Button> Registrar nuevo Dispositivo</Button>
-        </NavLink>
+        </NavLink> */}
+        
       </Box>
+      <CreateDeviceButton/>
       <Table aria-label="device table">
         <TableHead>
           <TableRow>
