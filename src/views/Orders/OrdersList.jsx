@@ -86,14 +86,21 @@ const Action = (props) =>{
           <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
           <MenuItem onClick={() => handleAction('edit')}>Editar</MenuItem>
           <MenuItem onClick={() => handleAction('delete')}>Borrar</MenuItem>
-          <MenuItem onClick={() => handleAction('createRepair')}>Crear reparación</MenuItem>
         </Menu></>
     )
   }else{
     return(
-      <Button onClick={handleClick}>
-        Ver Detalle 
-      </Button>
+      <><IconButton onClick={(e) => handleMenuClick(e, order)}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+          <MenuItem onClick={() => handleAction('details')}>Ver detalle</MenuItem>
+          <MenuItem onClick={() => handleAction('createRepair')}>Crear reparación</MenuItem>
+        </Menu></>
     )
   }
 
