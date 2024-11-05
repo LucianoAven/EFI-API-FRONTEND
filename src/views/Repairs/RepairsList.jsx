@@ -69,12 +69,19 @@ const RepairsList = () =>{
     const [repairs, setRepairs] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedRepair, setSelectedRepair] = useState(null);
+    const {userRole} = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchRepairs = async () => {
           try {
             const response = await axios.get(API_URL);
-            setRepairs(response.data);
+            const repairsObtenidas = response.data
+            if (userRole == "tecnico"){
+              setRepairs(repairsObtenidas.filter((repair)=>repair.ordenReparacion.tecnico.id == user.id))
+            } else {
+              setRepairs(repairsObtenidas);
+            }
             
           } catch (error) {
             console.error('Error al obtener las reparaciones:', error);
@@ -135,8 +142,8 @@ const RepairsList = () =>{
                 <TableCell>{repair.ordenReparacion.dispositivo.modelo}</TableCell>
                 <TableCell>{repair.ordenReparacion.tecnico.name}</TableCell>
                 <TableCell>{repair.fecha_inicio}</TableCell>
-                <TableCell>{repair.fecha_fin}</TableCell>
-                <TableCell>{repair.costo_real}</TableCell>
+                {repair.fecha_fin ?<TableCell>{repair.fecha_fin}</TableCell> :<TableCell>-</TableCell> }
+                {repair.costo_real?<TableCell>{repair.costo_real}</TableCell> :<TableCell>-</TableCell> }
                 <TableCell align="right">
                   <Action repair={repair} deleteRepair={deleteRepair}/>
                 </TableCell>

@@ -21,7 +21,9 @@ export const AuthProvider = ({ children }) => {
             const role  = response.data.role;
             localStorage.setItem("token", token);
             localStorage.setItem("userRole", role);
-            const decodedUser = parseJwt(token); 
+            const decodedUser = parseJwt(token);
+            console.log(decodedUser)
+            localStorage.setItem("user", decodedUser); 
             setUser(decodedUser);
             setUserRole(role)
             navigate("/")
@@ -35,13 +37,16 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userRole");
+        localStorage.removeItem("user");
         setUserRole(null);
         setUser(null);
     };
 
     useEffect(() => {
         const storedRole = localStorage.getItem("userRole");
+        const storedUser = localStorage.getItem("user");
         if (storedRole) setUserRole(storedRole);
+        if (storedUser) setUser(storedUser)
     }, []);
 
 

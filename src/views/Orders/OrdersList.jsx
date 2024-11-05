@@ -58,16 +58,6 @@ const Action = (props) =>{
     }
     handleMenuClose();
   };
-  // const deleteOrder = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:4000/api/orders/${id}`);
-  //     setOrders(orders.filter((order) => order.id !== id)); 
-  //     alert('Orden eliminada correctamente');
-  //   } catch (error) {
-  //     console.error("Error eliminando la orden:", error);
-  //     alert('Error eliminando la orden');
-  //   }
-  // };
   const deleteOrder = props.deleteOrder
 
   const handleClick = () =>{
@@ -111,15 +101,21 @@ const API_URL = 'http://localhost:4000/api/orders';
 
 const OrdersList = () =>{
     const [orders, setOrders] = useState([]);
-    
+    const {userRole} = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     useEffect(() => {
         const fetchOrders = async () => {
           try {
             const response = await axios.get(API_URL);
-            setOrders(response.data);
-            setTimeout(() => {
-                console.log(orders);
-              }, 1000);
+            const ordersObtenidas = response.data
+            if (userRole == "tecnico"){
+              console.log("user:")
+              console.log(user)
+              
+              setOrders(ordersObtenidas.filter((order)=>order.id_usuario == user.id))
+            }else{
+              setOrders(response.data);
+            }
               
           } catch (error) {
             console.error('Error al obtener las ordenes de reparación:', error);
@@ -133,6 +129,7 @@ const OrdersList = () =>{
         try {
           await axios.delete(`http://localhost:4000/api/orders/${id}`);
           setOrders(orders.filter((order) => order.id !== id)); 
+         
           alert('Orden eliminada correctamente');
         } catch (error) {
           console.error("Error eliminando la orden:", error);
